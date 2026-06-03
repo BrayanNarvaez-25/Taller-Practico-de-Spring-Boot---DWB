@@ -4,6 +4,7 @@ import com.krakedev.proyectos.entidades.Empleado;
 import com.krakedev.proyectos.services.EmpleadoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,6 +15,7 @@ public class EmpleadoController {
     private EmpleadoService service;
 
     @PostMapping("/")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> guardar(@RequestBody Empleado e) {
         try {
             return ResponseEntity.ok(service.guardar(e));
@@ -23,6 +25,7 @@ public class EmpleadoController {
     }
 
     @GetMapping("/")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<?> listar() {
         try {
             return ResponseEntity.ok(service.listar());
@@ -32,6 +35,7 @@ public class EmpleadoController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<?> buscar(@PathVariable int id) {
         try {
             return service.buscarPorId(id)
@@ -43,6 +47,7 @@ public class EmpleadoController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> actualizar(@PathVariable int id, @RequestBody Empleado e) {
         try {
             return ResponseEntity.ok(service.actualizar(id, e));
@@ -52,6 +57,7 @@ public class EmpleadoController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> eliminar(@PathVariable int id) {
         try {
             service.eliminar(id);
