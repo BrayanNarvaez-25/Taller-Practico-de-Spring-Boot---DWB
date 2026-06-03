@@ -4,6 +4,7 @@ import com.krakedev.proyectos.entidades.Tarea;
 import com.krakedev.proyectos.services.TareaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,6 +15,7 @@ public class TareaController {
     private TareaService service;
 
     @PostMapping("/")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> guardar(@RequestBody Tarea t) {
         try {
             return ResponseEntity.ok(service.guardar(t));
@@ -23,6 +25,7 @@ public class TareaController {
     }
 
     @GetMapping("/")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<?> listar() {
         try {
             return ResponseEntity.ok(service.listar());
