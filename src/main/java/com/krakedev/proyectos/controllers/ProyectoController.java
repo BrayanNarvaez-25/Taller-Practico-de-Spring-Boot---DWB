@@ -66,4 +66,9 @@ public class ProyectoController {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
+    
+    @GetMapping("/publico/resumen")
+    public ResponseEntity<Long> resumen() {
+        return ResponseEntity.ok(service.listar().stream().count());
+    }
 }

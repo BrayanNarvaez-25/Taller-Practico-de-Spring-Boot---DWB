@@ -24,6 +24,9 @@ public class Tarea {
     @ManyToOne
     @JoinColumn(name = "proyecto_id", nullable = false)
     private Proyecto proyecto;
+    
+    @Column(nullable = false, length = 10)
+    private String prioridad;
 
     @ManyToMany
     @JoinTable(
@@ -59,4 +62,7 @@ public class Tarea {
     public void setProyecto(Proyecto proyecto) { this.proyecto = proyecto; }
     public List<Empleado> getEmpleados() { return empleados; }
     public void setEmpleados(List<Empleado> empleados) { this.empleados = empleados; }
+    public String getPrioridad() { return prioridad; }
+    public void setPrioridad(String prioridad) { this.prioridad = prioridad; }
+
 }
